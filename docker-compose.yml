@@ -1,14 +1,17 @@
+version: '3.9'
+
 networks:
   my_docker_network:
 
 services:
   mysql:
-    # use e.g. MySQL Shell (https://dev.mysql.com/doc/mysql-shell/8.3/en/), install in macOS with brew install --cask mysql-shell:
+    # use e.g. MySQL Shell (https://dev.mysql.com/doc/mysql-shell/8.0/en/):
     #   mysqlsh -u root -h 127.0.0.1
-    #   \sql (macOS: Option+Shift+7 for '\' character)
-    #   use <databasename>
+    #   \sql (Backslash in macOS: Shift+Option+7)
+    #   use <databasename>;
     #   show tables;
     #   select * from <table>;
+    #   \quit
     # docker commands
     #  start containers
     #   docker compose up
@@ -18,12 +21,13 @@ services:
     #   docker image prune -a
     #  remove all containers not in use
     #   docker container prune
-    image: mysql:8.3.0
+    image: mariadb:11.7.2
+    #    platform: linux/x86_64
+    #    image: mysql:8.0.28
     environment:
       - MYSQL_ROOT_PASSWORD=root
-    command: --default_authentication_plugin=caching_sha2_password
+    command: --default-authentication-plugin=mysql_native_password
     ports:
       - "3306:3306"
     networks:
       - my_docker_network
-
