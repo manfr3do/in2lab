@@ -3,7 +3,7 @@
 Informationssysteme II, Bachelor Wirtschaftsinformatik
 
 Stefan Sarstedt, stefan.sarstedt(at)haw-hamburg.de  
-Sven Berding, sven.berding(at)haw-hamburg.de
+Nick Alexander, nick.alexander(at)haw-hamburg.de
 
 ## A. Einrichtung des JDK und Ausführen der Tests
 
@@ -37,7 +37,7 @@ Sven Berding, sven.berding(at)haw-hamburg.de
 
 3. Klone unser Projekt:
     ```bash
-    git clone https://github.com/srs-haw/ss24_in2lab
+    git clone https://git.haw-hamburg.de/lehre-sose-25/srs/in2/in2lab
     ```
 
 4. Prüfe mittels `javac -version` (vergiss das "c" nicht!), ob Du das korrekte JDK verwendest! Falls nicht, achte auf
