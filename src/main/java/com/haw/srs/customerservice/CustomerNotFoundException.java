@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @Value
 @EqualsAndHashCode(callSuper = false)
 @ResponseStatus(HttpStatus.NOT_FOUND)
-class CustomerNotFoundException extends Exception {
+class CustomerNotFoundException extends RuntimeException {
 
     private final Long customerId;
     private final String lastName;

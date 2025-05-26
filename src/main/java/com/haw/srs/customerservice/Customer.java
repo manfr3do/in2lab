@@ -6,8 +6,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 import java.util.ArrayList;
 import java.util.List;
+
+
 
 @Entity
 @Data
@@ -18,18 +24,30 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotBlank
+    @Size(max = 50)
     private String firstName;
 
+    @NotBlank
+    @Size(max = 50)
     private String lastName;
 
     @Enumerated(EnumType.STRING)
+    @NotNull
     private Gender gender;
 
     private String email;
 
     private PhoneNumber phoneNumber;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    // @JsonManagedReference("customer-course")
+    // @JsonIgnore
+    @JoinTable(
+        name = "customer_course",
+        joinColumns = @JoinColumn(name = "customer_id"),
+        inverseJoinColumns = @JoinColumn(name = "course_id")
+    )
     @Setter(AccessLevel.NONE)
     private List<Course> courses = new ArrayList<>();
 
@@ -51,5 +69,18 @@ public class Customer {
 
     public void addCourse(Course course) {
         this.courses.add(course);
+        course.erhoeheTeilnehmer();
+        course.getCustomers().add(this);
+    }
+
+    public void removeCourse(Course course) {
+        if (courses.contains(course)) {
+            courses.remove(course);
+            course.getCustomers().remove(this);
+            course.verringereTeilnehmer();
+            
+        } else {
+            throw new IllegalArgumentException("Kein Kurs mit den Namen gefunden.");
+        }
     }
 }

@@ -26,6 +26,11 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-mail'
     implementation 'javax.xml.bind:jaxb-api:2.4.0-b180830.0359'
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+    implementation 'com.fasterxml.jackson.module:jackson-module-parameter-names'
+    implementation 'jakarta.validation:jakarta.validation-api:3.1.1'
+    implementation 'org.hibernate.validator:hibernate-validator:8.0.1.Final'
+    implementation 'org.glassfish:jakarta.el:4.0.2'
     compileOnly 'org.projectlombok:lombok:1.18.38'
     annotationProcessor 'org.projectlombok:lombok:1.18.38'
 
@@ -48,6 +53,7 @@ test {
     useJUnitPlatform()
     failFast = true
     testLogging {
+        showStandardStreams = true
         events "passed", "skipped", "failed"
         exceptionFormat "full"
     }

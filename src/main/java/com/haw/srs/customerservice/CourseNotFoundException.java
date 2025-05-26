@@ -5,11 +5,11 @@ import lombok.Value;
 
 @Value
 @EqualsAndHashCode(callSuper = false)
-class CourseNotFoundException extends Exception {
+class CourseNotFoundException extends RuntimeException {
 
-    private final int courseNumber;
+    private final Long courseNumber;
 
-    CourseNotFoundException(int courseNumber) {
+    CourseNotFoundException(Long courseNumber) {
         super(String.format("Could not find course with number %d.", courseNumber));
 
         this.courseNumber = courseNumber;

@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.validation.Valid;
+
 import java.util.List;
 
 @RestController
@@ -39,19 +41,41 @@ public class CustomerFacade {
         customerRepository.delete(customer);
     }
 
-    @PostMapping
+    @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public Customer createCustomer(@RequestBody Customer customer) {
-
+    public Customer createCustomer(@RequestBody @Valid Customer customer) {
         return customerRepository.save(customer);
     }
 
-    @PutMapping
-    public Customer updateCustomer(@RequestBody Customer customer) throws CustomerNotFoundException {
-        Customer customerToUpdate = customerRepository
-                .findById(customer.getId())
-                .orElseThrow(() -> new CustomerNotFoundException(customer.getId()));
+    // @PutMapping
+    // public Customer updateCustomer(@RequestBody Customer customer) throws CustomerNotFoundException {
+    //     Customer customerToUpdate = customerRepository
+    //             .findById(customer.getId())
+    //             .orElseThrow(() -> new CustomerNotFoundException(customer.getId()));
 
-        return customerRepository.save(customer);
+    //     return customerRepository.save(customerToUpdate);
+    // }
+
+    @PutMapping("/{id}")
+    public Customer updateCustomer(@PathVariable("id") Long id, @RequestBody Customer updatedCustomer) {
+        if (!updatedCustomer.getId().equals(id)) {
+           throw new IllegalArgumentException("ID in path and body do not match");
+        }
+
+        customerRepository.findById(id).orElseThrow(() -> new CustomerNotFoundException(id));
+        return customerRepository.save(updatedCustomer);
+        // Customer customerToUpdate = customerRepository
+        //     .findById(id)
+        //     .orElseThrow(() -> new CustomerNotFoundException(id));
+        
+        // customerToUpdate.setFirstName(updatedCustomer.getFirstName());
+        // customerToUpdate.setLastName(updatedCustomer.getLastName());
+        // customerToUpdate.setGender(updatedCustomer.getGender());
+        // customerToUpdate.setPhoneNumber(updatedCustomer.getPhoneNumber());
+        // customerToUpdate.setEmail(updatedCustomer.getEmail());
+
+        // Customer saved = customerRepository.save(customerToUpdate);
+        
+        // return ResponseEntity.ok(saved);
     }
 }
